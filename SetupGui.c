@@ -54,12 +54,10 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
                 LPITEMIDLIST pidl = SHBrowseForFolder(&bi);
                 
                 if (pidl != 0) {
-                    // Seçilen klasör yolunu al
                     SHGetPathFromIDList(pidl, folderPath);
                     
                     SetWindowText(hEditFolderPath, folderPath);
                     
-                    // Hafızayı temizle
                     CoTaskMemFree(pidl);
                 }
             }

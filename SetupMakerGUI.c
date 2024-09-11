@@ -28,11 +28,10 @@ char* getAgreement() {
     }
 
     fread(buffer, 1, fileSize, file);
-    buffer[fileSize] = '\0'; // Null terminator
+    buffer[fileSize] = '\0'; 
 
     fclose(file);
-    // \n karakterlerini \r\n olarak değiştir
-    char* newBuffer = (char*)malloc(fileSize * 2 + 2); // Yeterli bellek ayır
+    char* newBuffer = (char*)malloc(fileSize * 2 + 2); 
     if (newBuffer == NULL) {
         free(buffer);
         MessageBox(NULL, "Bellek tahsisi başarısız.", "Hata", MB_OK | MB_ICONERROR);
@@ -43,13 +42,11 @@ char* getAgreement() {
     char* q = newBuffer;
     while (*p) {
         if (*p == '\n') {
-            // \r ekle
             *q++ = '\r';
         }
-        // Karakteri ekle
         *q++ = *p++;
     }
-    *q = '\0'; // Null terminator ekle
+    *q = '\0';
 
     free(buffer);
     return newBuffer;
@@ -76,31 +73,26 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
                                       ANSI_CHARSET, OUT_OUTLINE_PRECIS, CLIP_DEFAULT_PRECIS,
                                       CLEARTYPE_QUALITY, VARIABLE_PITCH, TEXT("Segoe UI"));
 
-            // App Name EditBox
             hEditAppName = CreateWindow("EDIT", "APP",
                         WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL,
                         10, 10, 300, 30, hwnd, (HMENU)ID_EDIT_APP_NAME, NULL, NULL);
             SendMessage(hEditAppName, WM_SETFONT, (WPARAM)hFont, TRUE);
 
-            // Folder Path EditBox
             hEditFolderPath = CreateWindow("EDIT", "",
                                            WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL | ES_READONLY,
                                            10, 50, 300, 30, hwnd, (HMENU)ID_EDIT_FOLDER_PATH, NULL, NULL);
             SendMessage(hEditFolderPath, WM_SETFONT, (WPARAM)hFont, TRUE);
 
-            // Folder Setup EditBox
             hEditFolderSetup = CreateWindow("EDIT", "",
                                            WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL | ES_READONLY,
                                            10, 90, 300, 30, hwnd, (HMENU)ID_EDIT_FOLDER_SETUP, NULL, NULL);
             SendMessage(hEditFolderSetup, WM_SETFONT, (WPARAM)hFont, TRUE);
 
-            // Agreement EditBox
             hEditMultipleAgreement = CreateWindow("EDIT", getAgreement(),
                          WS_CHILD | WS_VISIBLE | WS_BORDER | ES_MULTILINE | WS_VSCROLL | ES_AUTOVSCROLL | ES_READONLY,
                          10, 130, 350, 100, hwnd, NULL, NULL, NULL);
             SendMessage(hEditMultipleAgreement, WM_SETFONT, (WPARAM)hFont, TRUE);
             
-            // Create Button
             hButtonCreate = CreateWindow("BUTTON", "Create",
                                          WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
                                          210, 240, 100, 30, hwnd, (HMENU)ID_BUTTON_CREATE, NULL, NULL);
@@ -115,13 +107,10 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
                 LPITEMIDLIST pidl = SHBrowseForFolder(&bi);
                 
                 if (pidl != 0) {
-                    // Seçilen klasör yolunu al
                     SHGetPathFromIDList(pidl, folderPath);
                     
-                    // Klasör yolunu Edit Control'e yaz
                     SetWindowText(hEditFolderPath, folderPath);
                     
-                    // Hafızayı temizle
                     CoTaskMemFree(pidl);
                 }
             }
@@ -131,13 +120,10 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
                 LPITEMIDLIST pidl = SHBrowseForFolder(&bi);
                 
                 if (pidl != 0) {
-                    // Seçilen klasör yolunu al
                     SHGetPathFromIDList(pidl, setupPath);
                     
-                    // Klasör yolunu Edit Control'e yaz
                     SetWindowText(hEditFolderSetup, setupPath);
                     
-                    // Hafızayı temizle
                     CoTaskMemFree(pidl);
                 }
             }
@@ -178,7 +164,6 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
             int width = LOWORD(lParam);
             int height = HIWORD(lParam);
 
-            // Modern düzenleme: Kontrollerin boyut ve konumlarını güncelle
             MoveWindow(hEditAppName, 10, 10, width - 20, 30, TRUE);
             MoveWindow(hEditFolderPath, 10, 50, width - 20, 30, TRUE);
             MoveWindow(hEditFolderSetup, 10, 90, width - 20, 30, TRUE);

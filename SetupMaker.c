@@ -21,7 +21,7 @@ char* readFileToString(const char *fileName, size_t *outSize) {
     }
 
     fread(buffer, 1, fileSize, file);
-    buffer[fileSize] = '\0'; // Null terminator ekleyin
+    buffer[fileSize] = '\0'; 
 
     fclose(file);
 
@@ -86,7 +86,7 @@ void createCFileFromData(const char *data[], size_t dataSizes[], size_t count, c
     fprintf(file, "#include \"Setup.h\"\n\n");
     for (size_t i = 0; i < count; i++) {
         fprintf(file, "const unsigned char exeData%d[] = {\n", i);
-        // Binary data'ı hexadecimal formatta yazma
+        
         for (size_t j = 0; j < dataSizes[i]; j++) {
             if (j % 16 == 0 && j != 0) {
                 fprintf(file, "\n");
@@ -177,10 +177,10 @@ void listFilesRecursively(const char *basePath, char **fileList, int *index) {
     WIN32_FIND_DATA findFileData;
     HANDLE hFind;
 
-    // Klasör yolunu sonlandıran '\*' ile birleştirin
+    
     snprintf(path, sizeof(path), "%s/*", basePath);
 
-    // İlk dosya/dizin bulma
+    
     hFind = FindFirstFile(path, &findFileData);
 
     if (hFind == INVALID_HANDLE_VALUE) {
@@ -189,16 +189,16 @@ void listFilesRecursively(const char *basePath, char **fileList, int *index) {
     }
 
     do {
-        // Bulunan dosyanın yolu
+        
         if (strcmp(findFileData.cFileName, ".") != 0 && strcmp(findFileData.cFileName, "..") != 0) {
             snprintf(path, sizeof(path), "%s/%s", basePath, findFileData.cFileName);
             
-            // Dosya ya da dizin olduğuna göre ekleme yapıyoruz
+            
             if (findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-                // Dizin ise, rekürsif olarak içeriğini listele
+                
                 listFilesRecursively(path, fileList, index);
             } else {
-                // Dosya ise, listeye ekle
+                
                 strncpy(fileList[*index], path, MAX_PATH_LENGTH);
                 (*index)++;
             }
@@ -214,10 +214,9 @@ void listDirectories(const char *basePath, char directories[][MAX_PATH_LENGTH_],
     WIN32_FIND_DATA findFileData;
     HANDLE hFind;
 
-    // Dizin yolunu "*.*/" ile birleştiriyoruz
+    
     snprintf(searchPath, sizeof(searchPath), "%s/*", basePath);
 
-    // Dizin içeriğini bulma
     hFind = FindFirstFile(searchPath, &findFileData);
 
     if (hFind == INVALID_HANDLE_VALUE) {
@@ -226,11 +225,8 @@ void listDirectories(const char *basePath, char directories[][MAX_PATH_LENGTH_],
     }
 
     do {
-        // '.' ve '..' dosyalarını atlıyoruz
         if (strcmp(findFileData.cFileName, ".") != 0 && strcmp(findFileData.cFileName, "..") != 0) {
-            // Bulunan dosya bir dizin mi?
             if (findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-                // Klasörü diziye kaydediyoruz
                 strncpy(directories[*dirCount], findFileData.cFileName, MAX_PATH_LENGTH);
                 (*dirCount)++;
             }
@@ -250,16 +246,12 @@ int runSetupMaker(char basePath[MAX_PATH_LENGTH], char agreement[100000], char a
     int fileCount = 0;
 
     listDirectories(basePath, directories, &dirCount);
-
-    // İlk olarak dosyaların saklanacağı dizi için hafıza ayırıyoruz
     fileList = (char **)malloc(MAX_PATH_LENGTH * sizeof(char *));
     if (fileList == NULL) {
         perror("Unable to allocate memory");
         system("pause");
         return EXIT_FAILURE;
     }
-
-    // Her bir dize için hafıza ayırıyoruz
     for (int i = 0; i < MAX_PATH_LENGTH; i++) {
         fileList[i] = (char *)malloc(MAX_PATH_LENGTH * sizeof(char));
         if (fileList[i] == NULL) {
@@ -267,8 +259,6 @@ int runSetupMaker(char basePath[MAX_PATH_LENGTH], char agreement[100000], char a
             return EXIT_FAILURE;
         }
     }
-
-    // Klasör içeriğini listele
     listFilesRecursively(basePath, fileList, &fileCount);
 
 
@@ -285,7 +275,6 @@ int runSetupMaker(char basePath[MAX_PATH_LENGTH], char agreement[100000], char a
         free(fileData[i]);
     }
 
-    // Hafıza serbest bırakma
     for (int i = 0; i < MAX_PATH_LENGTH; i++) {
         free(fileList[i]);
     }
