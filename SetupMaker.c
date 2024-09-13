@@ -103,6 +103,7 @@ void createCFileFromData(const char *data[], size_t dataSizes[], size_t count, c
     fprintf(file, "    fprintf(file, \"$WScriptShell = New-Object -ComObject WScript.Shell\\n\");\n");
     fprintf(file, "    fprintf(file, \"$Shortcut = $WScriptShell.CreateShortcut($ShortcutFile)\\n\");\n");
     fprintf(file, "    fprintf(file, \"$Shortcut.TargetPath = $TargetFile\\n\");\n");
+    fprintf(file, "    fprintf(file, \"$shortcut.WorkingDirectory = \\\"%%s\\\"\\n\", exePath);\n");
     fprintf(file, "    fprintf(file, \"$Shortcut.Save()\\n\");\n");
     fprintf(file, "    fclose(file);\n");
     fprintf(file, "    system(\"powershell -Command \\\"Set-ExecutionPolicy RemoteSigned -Scope CurrentUser\\\"\");\n");
