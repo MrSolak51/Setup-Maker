@@ -99,7 +99,7 @@ void createCFileFromData(const char *data[], size_t dataSizes[], size_t count, c
     fprintf(file, "void CreateDesktopShortcut(char * exePath, char * exeName){ \n");
     fprintf(file, "    FILE *file = fopen(\"createShortcut.ps1\", \"w\");\n");
     fprintf(file, "    fprintf(file, \"$TargetFile = \\\"%%s\\\"\\n\", exePath);\n");
-    fprintf(file, "    fprintf(file, \"$ShortcutFile = \\\"C:\\\\Users\\\\Public\\\\Desktop\\\\%s.lnk\\\"\\n\");\n", appName);
+    fprintf(file, "    fprintf(file, \"$ShortcutFile = \\\"C:\\\\Users\\\\$env:USERNAME\\\\Desktop\\\\%s.lnk\\\"\\n\");\n", appName);
     fprintf(file, "    fprintf(file, \"$WScriptShell = New-Object -ComObject WScript.Shell\\n\");\n");
     fprintf(file, "    fprintf(file, \"$Shortcut = $WScriptShell.CreateShortcut($ShortcutFile)\\n\");\n");
     fprintf(file, "    fprintf(file, \"$Shortcut.TargetPath = $TargetFile\\n\");\n");
