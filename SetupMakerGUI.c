@@ -9,48 +9,6 @@
 #define ID_EDIT_APP_NAME 4
 #define ID_EDIT_AGREEMENT 5
 
-char* getAgreement() {
-    FILE* file = fopen("agreement.txt", "r");
-    if (file == NULL) {
-        MessageBox(NULL, "Dosya açılamadı.", "Hata", MB_OK | MB_ICONERROR);
-        return NULL;
-    }
-
-    fseek(file, 0, SEEK_END);
-    long fileSize = ftell(file);
-    fseek(file, 0, SEEK_SET);
-
-    char* buffer = (char*)malloc(fileSize + 1);
-    if (buffer == NULL) {
-        fclose(file);
-        MessageBox(NULL, "Bellek tahsisi başarısız.", "Hata", MB_OK | MB_ICONERROR);
-        return NULL;
-    }
-
-    fread(buffer, 1, fileSize, file);
-    buffer[fileSize] = '\0'; 
-
-    fclose(file);
-    char* newBuffer = (char*)malloc(fileSize * 2 + 2); 
-    if (newBuffer == NULL) {
-        free(buffer);
-        MessageBox(NULL, "Bellek tahsisi başarısız.", "Hata", MB_OK | MB_ICONERROR);
-        return NULL;
-    }
-
-    char* p = buffer;
-    char* q = newBuffer;
-    while (*p) {
-        if (*p == '\n') {
-            *q++ = '\r';
-        }
-        *q++ = *p++;
-    }
-    *q = '\0';
-
-    free(buffer);
-    return newBuffer;
-}
 
 int isEmpty(const char *str) {
     while (*str) {
@@ -88,8 +46,8 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
                                            10, 90, 300, 30, hwnd, (HMENU)ID_EDIT_FOLDER_SETUP, NULL, NULL);
             SendMessage(hEditFolderSetup, WM_SETFONT, (WPARAM)hFont, TRUE);
 
-            hEditMultipleAgreement = CreateWindow("EDIT", getAgreement(),
-                         WS_CHILD | WS_VISIBLE | WS_BORDER | ES_MULTILINE | WS_VSCROLL | ES_AUTOVSCROLL | ES_READONLY,
+            hEditMultipleAgreement = CreateWindow("EDIT", agreement,
+                         WS_CHILD | WS_VISIBLE | WS_BORDER | ES_MULTILINE | WS_VSCROLL | ES_AUTOVSCROLL,
                          10, 130, 350, 100, hwnd, NULL, NULL, NULL);
             SendMessage(hEditMultipleAgreement, WM_SETFONT, (WPARAM)hFont, TRUE);
             
