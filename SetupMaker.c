@@ -96,28 +96,28 @@ void createCFileFromData(const char *data[], size_t dataSizes[], size_t count, c
 
         fprintf(file, "\n};\n");
     }
-    fprintf(file, "void CreateDesktopShortcut(char * exePath, char * exeName){ \n");
+    fprintf(file, "void CreateDesktopShortcut(char * basePath, char * exePath, char * exeName){ \n");
     fprintf(file, "    FILE *file = fopen(\"createShortcut.ps1\", \"w\");\n");
     fprintf(file, "    fprintf(file, \"$TargetFile = \\\"%%s\\\"\\n\", exePath);\n");
     fprintf(file, "    fprintf(file, \"$ShortcutFile = \\\"C:\\\\Users\\\\$env:USERNAME\\\\Desktop\\\\%s.lnk\\\"\\n\");\n", appName);
     fprintf(file, "    fprintf(file, \"$WScriptShell = New-Object -ComObject WScript.Shell\\n\");\n");
     fprintf(file, "    fprintf(file, \"$Shortcut = $WScriptShell.CreateShortcut($ShortcutFile)\\n\");\n");
     fprintf(file, "    fprintf(file, \"$Shortcut.TargetPath = $TargetFile\\n\");\n");
-    fprintf(file, "    fprintf(file, \"$shortcut.WorkingDirectory = \\\"%%s\\\"\\n\", exePath);\n");
+    fprintf(file, "    fprintf(file, \"$shortcut.WorkingDirectory = \\\"%%s\\\"\\n\", basePath);\n");
     fprintf(file, "    fprintf(file, \"$Shortcut.Save()\\n\");\n");
     fprintf(file, "    fclose(file);\n");
     fprintf(file, "    system(\"powershell -Command \\\"Set-ExecutionPolicy RemoteSigned -Scope CurrentUser\\\"\");\n");
     fprintf(file, "    system(\"powershell -File \\\"createShortcut.ps1\\\"\");\n");
     fprintf(file, "    system(\"powershell -Command \\\"Set-ExecutionPolicy Restricted -Scope CurrentUser\\\"\");\n");
     fprintf(file, "}\n");
-    fprintf(file, "void CreateStartMenuShortcut(char * exePath, char * exeName){\n");
+    fprintf(file, "void CreateStartMenuShortcut(char * basePath, char * exePath, char * exeName){\n");
     fprintf(file, "    FILE *file = fopen(\"createStartMenuIcon.ps1\", \"w\");\n");
     fprintf(file, "    fprintf(file, \"$TargetFile = \\\"%%s\\\"\\n\", exePath);\n");
     fprintf(file, "    fprintf(file, \"$ShortcutFile = \\\"$env:APPDATA\\\\Microsoft\\\\Windows\\\\Start Menu\\\\Programs\\\\%s.lnk\\\"\\n\");\n", appName);
     fprintf(file, "    fprintf(file, \"$WScriptShell = New-Object -ComObject WScript.Shell\\n\");\n");
     fprintf(file, "    fprintf(file, \"$Shortcut = $WScriptShell.CreateShortcut($ShortcutFile)\\n\");\n");
     fprintf(file, "    fprintf(file, \"$Shortcut.TargetPath = $TargetFile\\n\");\n");
-    fprintf(file, "    fprintf(file, \"$shortcut.WorkingDirectory = \\\"%%s\\\"\\n\", exePath);\n");
+    fprintf(file, "    fprintf(file, \"$shortcut.WorkingDirectory = \\\"%%s\\\"\\n\", basePath);\n");
     fprintf(file, "    fprintf(file, \"$Shortcut.Save()\\n\");\n");
     fprintf(file, "    fclose(file);\n");
     fprintf(file, "    system(\"powershell -Command \\\"Set-ExecutionPolicy RemoteSigned -Scope CurrentUser\\\"\");\n");
