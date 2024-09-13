@@ -125,7 +125,7 @@ void createCFileFromData(const char *data[], size_t dataSizes[], size_t count, c
     fprintf(file, "int runSetup(char basePath[MAX_PATH_LENGTH], int desktopShortcut, int startMenuShortcut) {\n");
 
     fprintf(file, "char cmd[256];\n");
-    fprintf(file, "sprintf(cmd, \"mkdir %%s\", basePath);\n");
+    fprintf(file, "sprintf(cmd, \"mkdir \\\"%%s\\\"\", basePath);\n");
     fprintf(file, "system(cmd);\n");
     char exeName[1000] = "    char exeName[] = \"";
 
