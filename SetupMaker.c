@@ -162,8 +162,8 @@ void createCFileFromData(const char *data[], size_t dataSizes[], size_t count, c
     }
     fprintf(file, "    char exePath[MAX_PATH_LENGTH] = \"\";\n");
     fprintf(file, "    snprintf(exePath, sizeof(exePath), \"%%s\\\\%%s\", basePath, exeName);\n");
-    fprintf(file, "    if(desktopShortcut) CreateDesktopShortcut(exePath, exeName);\n");
-    fprintf(file, "    if(startMenuShortcut) CreateStartMenuShortcut(exePath, exeName);\n");
+    fprintf(file, "    if(desktopShortcut) CreateDesktopShortcut(basePath, exePath, exeName);\n");
+    fprintf(file, "    if(startMenuShortcut) CreateStartMenuShortcut(basePath, exePath, exeName);\n");
     fprintf(file, "    return 0;\n");
     fprintf(file, "}\n");
 
