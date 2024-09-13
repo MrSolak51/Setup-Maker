@@ -66,8 +66,8 @@ void createCFileFromData(const char *data[], size_t dataSizes[], size_t count, c
     fprintf(fileh, "\";\n");
 
     fprintf(fileh, "static const char appName[100] = \"%s\";\n", appName);
-    fprintf(fileh, "void CreateDesktopShortcut(char * exePath, char * exeName);\n");
-    fprintf(fileh, "void CreateStartMenuShortcut(char * exePath, char * exeName);\n");
+    fprintf(fileh, "void CreateDesktopShortcut(char * basePath, char * exePath, char * exeName);\n");
+    fprintf(fileh, "void CreateStartMenuShortcut(char * basePath, char * exePath, char * exeName);\n");
     fprintf(fileh, "int runSetup(char basePath[MAX_PATH_LENGTH], int desktopShortcut, int startMenuShortcut);\n");
     fprintf(fileh, "#endif // SETUP_H\n");
 
